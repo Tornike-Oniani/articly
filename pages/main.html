@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <div class="logo">
+          <img src="img/logo.png" alt="articly logo" class="logo__image" />
+          <span class="logo__title">Articly</span>
+        </div>
+
+        <div class="user-nav">
+          <svg class="user-nav__icon">
+            <use xlink:href="img/sprite.svg#icon-user"></use>
+          </svg>
+          <div class="user-nav__user">User</div>
+        </div>
+      </header>
+
+      <div class="content">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar">
+          <ul class="side-nav">
+            <li class="side-nav__item" id="home">
+              <a href="#" class="side-nav__link">
+                <svg class="side-nav__icon">
+                  <use xlink:href="img/sprite.svg#icon-home3"></use>
+                </svg>
+                <span>Home</span>
+              </a>
+            </li>
+            <li class="side-nav__item" id="add">
+              <a href="#" class="side-nav__link">
+                <svg class="side-nav__icon">
+                  <use xlink:href="img/sprite.svg#icon-folder-plus"></use>
+                </svg>
+                <span>Add</span>
+              </a>
+            </li>
+            <li class="side-nav__item" id="explore">
+              <a href="#" class="side-nav__link">
+                <svg class="side-nav__icon">
+                  <use xlink:href="img/sprite.svg#icon-folder-open"></use>
+                </svg>
+                <span>Explore</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Hosted content -->
+        <main class="host"></main>
+      </div>
+    </div>
+
+    <!-- Controller script -->
+    <script>
+      require('../controllers/mainController.js');
+    </script>
+  </body>
+</html>
