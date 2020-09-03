@@ -1,13 +1,22 @@
-const { app, ipcMain } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const Window = require('./utils/window');
 
 let mainWindow;
 
 app.on('ready', () => {
   // Create window
-  mainWindow = new Window({
-    file: path.join(__dirname, 'pages', 'main.html'),
+  mainWindow = new BrowserWindow({
+    show: false,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+    },
+  });
+
+  mainWindow.loadFile(path.join(__dirname, 'pages', 'main.html'));
+
+  mainWindow.on('ready-to-show', () => {
+    mainWindow.show();
   });
 
   //* Quit app when main window gets closed
@@ -18,13 +27,4 @@ app.on('ready', () => {
 
 app.on('window-all-closed', () => {
   app.quit();
-});
-
-const loadPage = (page) => {
-  mainWindow.loadFile(path.join(__dirname, 'pages', `${page}.html`));
-};
-
-// Catch content:change
-ipcMain.on('page:change', (e, page) => {
-  loadPage(page);
 });

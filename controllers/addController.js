@@ -1,5 +1,6 @@
+const { dialog, getCurrentWindow } = require('electron').remote;
 const elements = require('../views/elements');
-const { renderAuthor, renderKeyword } = require('../views/addView');
+const { renderAuthor, renderKeyword, clear } = require('../views/addView');
 
 exports.init = () => {
   // Author add event
@@ -22,5 +23,29 @@ exports.init = () => {
       renderKeyword(elements.keywords().value);
       elements.keywords().value = '';
     }
+  });
+
+  // Select file
+  elements.btnSelect().addEventListener('click', async (e) => {
+    // 1. Prevent form
+    e.preventDefault();
+
+    // 2. Open file dialog
+    const path = await dialog.showOpenDialog(getCurrentWindow(), {
+      properties: ['openFile'],
+    });
+
+    // 3. Get file name from full path
+    const fileName = path.filePaths[0].replace(/^.*[\\\/]/, '');
+
+    // 4. Write file name to file input
+    elements.file().value = fileName;
+  });
+
+  // Clear
+  elements.btnClear().addEventListener('click', (e) => {
+    e.preventDefault();
+
+    clear();
   });
 };

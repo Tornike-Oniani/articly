@@ -4,6 +4,7 @@ const defaultOptions = {
   show: false,
   webPreferences: {
     nodeIntegration: true,
+    enableRemoteModule: true,
   },
 };
 

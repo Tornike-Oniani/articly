@@ -1,4 +1,3 @@
-//const { ipcRenderer } = require('electron');
 const elements = require('../views/elements');
 const { renderContent } = require('../views/mainView');
 const addController = require('./addController.js');
@@ -13,9 +12,9 @@ elements.home.classList.add('side-nav__item--active');
 
 // Content changed events
 [elements.home, elements.add, elements.explore].forEach((control) => {
-  control.addEventListener('click', (e) => {
+  control.addEventListener('click', async (e) => {
     const el = e.target.closest('.side-nav__item');
-    renderContent(el.id);
+    await renderContent(el.id);
     addController.init();
   });
 
