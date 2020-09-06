@@ -1,28 +1,46 @@
 const { dialog, getCurrentWindow } = require('electron').remote;
 const elements = require('../views/elements');
-const { renderAuthor, renderKeyword, clear } = require('../views/addView');
+const { renderItem, clear, getInput } = require('../views/addView');
+
+let input = {
+  authors: [],
+  keywords: [],
+};
+
+const addItem = (e, itemName) => {
+  // Prevent form submit
+  e.preventDefault();
+
+  // 1. Add item to input object
+  const item = elements[itemName]().value;
+  input[itemName].push(item);
+
+  // 2. Render added item
+  // eslint-disable-next-line no-unused-expressions
+  itemName === 'authors'
+    ? renderItem('tagsAuthor', item)
+    : renderItem('tagsKeyword', item);
+  elements[itemName]().value = '';
+};
 
 exports.init = () => {
-  // Author add event
+  // Add author
   elements.authors().addEventListener('keypress', (e) => {
     if (e.keyCode === 13) {
-      // Prevent form submit
-      e.preventDefault();
-
-      renderAuthor(elements.authors().value);
-      elements.authors().value = '';
+      addItem(e, 'authors');
     }
   });
 
   // Add keyword
   elements.keywords().addEventListener('keypress', (e) => {
     if (e.keyCode === 13) {
-      // Prevent form submit
-      e.preventDefault();
-
-      renderKeyword(elements.keywords().value);
-      elements.keywords().value = '';
+      addItem(e, 'keywords');
     }
+  });
+
+  elements.tagsAuthor().addEventListener('click', (e) => {
+    const el = e.target.closest('.form__tags__item');
+    if (el) console.log(el.innerHtml);
   });
 
   // Select file
@@ -35,17 +53,39 @@ exports.init = () => {
       properties: ['openFile'],
     });
 
-    // 3. Get file name from full path
-    const fileName = path.filePaths[0].replace(/^.*[\\\/]/, '');
+    // Check if path exists
+    if (path.filePaths[0]) {
+      // 3. Get file name from full path
+      const fileName = path.filePaths[0].replace(/^.*[\\/]/, '');
 
-    // 4. Write file name to file input
-    elements.file().value = fileName;
+      // 4. Write file name to file input
+      elements.file().value = fileName;
+
+      // 5. Add full file path to input object
+      input.file = path.filePaths[0];
+    }
   });
 
   // Clear
   elements.btnClear().addEventListener('click', (e) => {
     e.preventDefault();
 
+    // 1. Clear input object
+    input = {
+      authors: [],
+      keywords: [],
+    };
+
+    // 2. Clear UI
     clear();
+  });
+
+  // Add
+  elements.btnAdd().addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const finalInput = Object.assign(getInput(), input);
+
+    console.log(finalInput);
   });
 };

@@ -11,6 +11,7 @@ module.exports = {
   tagsAuthor: () => document.getElementById('tags-author'),
   tagsKeyword: () => document.getElementById('tags-keyword'),
   year: () => document.getElementById('year'),
+  sic: () => document.getElementById('sic'),
   personalComment: () => document.getElementById('personal-comment'),
   file: () => document.getElementById('file'),
   btnSelect: () => document.getElementById('btn-select-file'),

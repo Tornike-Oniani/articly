@@ -1,13 +1,17 @@
 const elements = require('./elements');
 
-exports.renderAuthor = (author) => {
-  const authorMarkup = `<span class="form__tags__item">${author}</span>`;
-  elements.tagsAuthor().insertAdjacentHTML('beforeend', authorMarkup);
+exports.renderItem = (tags, item) => {
+  const markup = `<span class="form__tags__item">${item}</span>`;
+  elements[tags]().insertAdjacentHTML('beforeend', markup);
 };
 
-exports.renderKeyword = (keyword) => {
-  const authorMarkup = `<span class="form__tags__item">${keyword}</span>`;
-  elements.tagsKeyword().insertAdjacentHTML('beforeend', authorMarkup);
+exports.getInput = () => {
+  return {
+    title: elements.title().value,
+    year: elements.year().value,
+    personalComment: elements.personalComment().value,
+    sic: elements.sic().checked ? 1 : 0,
+  };
 };
 
 exports.clear = () => {
